@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Table, Input, Space, Card } from "antd";
 import { ColumnsType } from "antd/es/table";
 
-export interface ILibrary {
+interface ILibrary {
   order: number;
   territory: string;
   libraries: number;
@@ -32,22 +32,10 @@ const columns: ColumnsType<ILibrary> = [
 ];
 
 export const Libraries = (props: IProps) => {
+  const { data } = props;
+  
   const [libraries, setLibraries] = useState<ILibrary[]>([]);
   const [filteredLibs, setFiltredLibs] = useState<ILibrary[]>([]);
-  const { data } = props;
-  //   useEffect(() => {
-  //     fetch("data-20161110T1744.json")
-  //       .then(res => {
-  //         res.json().then(data => {
-  //           console.log("data: ", data); // TODO: to delete
-  //           setLibraries(data);
-  //           setFiltredLibs(data);
-  //         });
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   }, []);
 
   useEffect(() => {
     setLibraries(data ? data : []);
@@ -72,7 +60,7 @@ export const Libraries = (props: IProps) => {
         <Input.Search
           placeholder="Search..."
           allowClear
-          style={{ maxWidth: "300px", textAlign: "left" }}
+          style={{ maxWidth: "300px" }}
           onSearch={handleSearch}
         />
         <Table<ILibrary>
@@ -82,7 +70,7 @@ export const Libraries = (props: IProps) => {
           rowKey="order"
           size="small"
           summary={() => (
-            <Table.Summary.Row style={{ backgroundColor: "#fafafa", fontWeight: 500 }}>
+            <Table.Summary.Row className="table-summary-row">
               <Table.Summary.Cell index={0} colSpan={2}>
                 Total rows in table: {filteredLibs ? filteredLibs.length : 0}
               </Table.Summary.Cell>
